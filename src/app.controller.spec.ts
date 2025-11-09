@@ -15,8 +15,17 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
+    it('should return "Hello World! GharPE Backend API is running."', () => {
+      expect(appController.getHello()).toBe('Hello World! GharPE Backend API is running.');
+    });
+  });
+
+  describe('health', () => {
+    it('should return health status', () => {
+      const result = appController.getHealth();
+      expect(result.status).toBe('ok');
+      expect(result.timestamp).toBeDefined();
     });
   });
 });
+
