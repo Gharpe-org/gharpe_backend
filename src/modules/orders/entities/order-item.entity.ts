@@ -2,8 +2,8 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  CreateDateColumn,
   ManyToOne,
+  CreateDateColumn,
   JoinColumn,
 } from 'typeorm';
 import { Order } from './order.entity';
@@ -20,21 +20,24 @@ export class OrderItem {
   @Column({ type: 'uuid' })
   productId: string;
 
-  @Column()
+  @ManyToOne(() => Order, (order) => order.items, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'orderId' })
+  order: Order;
+
+  @ManyToOne(() => Product, (product) => product.orderItems, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'productId' })
+  product: Product;
+
+  @Column({ type: 'int', default: 1 })
   quantity: number;
 
   @Column('decimal', { precision: 10, scale: 2 })
   price: number;
 
-  @ManyToOne(() => Order, (order) => order.items)
-  @JoinColumn({ name: 'orderId' })
-  order: Order;
-
-  @ManyToOne(() => Product, (product) => product.orderItems)
-  @JoinColumn({ name: 'productId' })
-  product: Product;
-
   @CreateDateColumn()
   createdAt: Date;
 }
-

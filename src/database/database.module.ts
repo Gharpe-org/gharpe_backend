@@ -1,7 +1,9 @@
+// src/database/database.module.ts
 import { Module } from '@nestjs/common';
-import { DatabaseService } from './database.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  providers: [DatabaseService]
+  imports: [TypeOrmModule.forRoot()],
+  exports: [TypeOrmModule],
 })
 export class DatabaseModule {}
