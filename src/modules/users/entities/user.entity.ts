@@ -16,19 +16,25 @@ export enum UserRole {
   ADMIN = 'admin',
 }
 
+export enum AuthProvider {
+  GOOGLE = 'google',
+  APPLE = 'apple',
+  PHONE = 'phone',
+}
+
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, nullable: true })
   email: string;
 
   @Column()
   name: string;
 
-  @Column({ nullable: true })
-  phone: string;
+  @Column({ nullable: true, unique: true })
+  phoneNumber: string;
 
   @Column({ nullable: true })
   image: string;
@@ -53,8 +59,15 @@ export class User {
   @Column({ nullable: true })
   googleId: string;
 
-  @Column({ nullable: true })
-  facebookId: string;
+  @Column({
+    type: 'enum',
+    enum: AuthProvider,
+    nullable: true,
+  })
+  authProvider: AuthProvider;
+
+  @Column({ nullable: true, unique: true })
+  firebaseUid: string;
 
   @CreateDateColumn()
   createdAt: Date;

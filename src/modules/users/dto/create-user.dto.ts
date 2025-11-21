@@ -1,16 +1,17 @@
 import { IsEmail, IsString, IsOptional, IsEnum } from 'class-validator';
-import { UserRole } from '../entities/user.entity';
+import { UserRole, AuthProvider } from '../entities/user.entity';
 
 export class CreateUserDto {
+  @IsOptional()
   @IsEmail()
-  email: string;
+  email?: string;
 
   @IsString()
   name: string;
 
   @IsOptional()
   @IsString()
-  phone?: string;
+  phoneNumber?: string;
 
   @IsOptional()
   @IsString()
@@ -25,7 +26,11 @@ export class CreateUserDto {
   googleId?: string;
 
   @IsOptional()
+  @IsEnum(AuthProvider)
+  authProvider?: AuthProvider;
+
+  @IsOptional()
   @IsString()
-  facebookId?: string;
+  firebaseUid?: string;
 }
 
