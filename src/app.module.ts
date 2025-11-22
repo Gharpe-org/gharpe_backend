@@ -54,10 +54,14 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmAsyncConfig } from './config/typeorm.config';
 import { UsersModule } from './modules/users/users.module';
-import {ShopsModule} from './modules/shops/shops.module';
+import { ShopsModule } from './modules/shops/shops.module';
 import { DeliveryModule } from './modules/delivery/delivery.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { OrdersModule } from './modules/orders/orders.module';
+import { AuthModule } from './auth/auth.module';
+
+import { APP_GUARD } from '@nestjs/core';
+import { FirebaseAuthGuard } from './auth/guards/firebase-auth.guard';
 
 @Module({
   imports: [
@@ -68,6 +72,13 @@ import { OrdersModule } from './modules/orders/orders.module';
     DeliveryModule,
     OrdersModule,
     AdminModule,
+    AuthModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: FirebaseAuthGuard,
+    },
   ],
 })
-export class AppModule {}
+export class AppModule { }
